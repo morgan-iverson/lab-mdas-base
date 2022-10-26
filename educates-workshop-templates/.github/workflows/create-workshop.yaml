@@ -1,0 +1,97 @@
+name: Generate Workshop
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  generate-workshop:
+    runs-on: ubuntu-latest
+
+    if: ${{github.repository != 'vmware-tanzu-labs/educates-workshop-templates'}}
+
+    steps:
+      # We create two checkouts of the repository. One as source for the template
+      # and the second to reset to an empty checkout on which to overlay workshop.
+
+      - uses: actions/checkout@v3
+        with:
+          path: template
+
+      - uses: actions/checkout@v3
+        with:
+          path: workshop/${{github.event.repository.name}}
+
+      - name: Install Carvel tools
+        run: curl -L https://carvel.dev/install.sh | bash
+
+      - name: Get repository details
+        uses: actions/github-script@v4
+        id: fetch-repo-and-user-details
+        with:
+          script: |
+            const query = `query($owner:String!, $name:String!) {
+              repository(owner:$owner, name:$name) {
+                name
+                description
+                owner {
+                  login
+                  ... on User {
+                    name
+                  }
+                  ... on Organization {
+                    name
+                  }
+                }
+              }
+            }`;
+            const variables = {
+              owner: context.repo.owner,
+              name: context.repo.repo
+            }
+            const result = await github.graphql(query, variables)
+            result["repository"]["description"] = result["repository"]["description"] || ""
+            console.log(result)
+            return result
+
+      - name: Calculate variables
+        env:
+          REPOSITORY_INFO: ${{steps.fetch-repo-and-user-details.outputs.result}}
+        run: |
+          REPOSITORY_NAME=${{github.event.repository.name}}
+          REPOSITORY_OWNER=$(echo $REPOSITORY_INFO | jq -r .repository.owner.login)
+          echo "REPOSITORY_NAME=${REPOSITORY_NAME,,}" >>${GITHUB_ENV}
+          echo "REPOSITORY_OWNER=${REPOSITORY_OWNER,,}" >>${GITHUB_ENV}
+          echo "REPOSITORY_DESCRIPTION=$(echo $REPOSITORY_INFO | jq -r .repository.description)" >>${GITHUB_ENV}
+          echo "REPOSITORY_SHA7=${GITHUB_SHA::7}" >>${GITHUB_ENV}
+
+      - name: Reset repository
+        working-directory: workshop/${{github.event.repository.name}}
+        run: |
+          git checkout -b work main
+          git branch -D main
+          git checkout --orphan main
+          git branch -D work
+          git reset --hard
+
+      - name: Create workshop
+        run: |
+          # Don't override registry as we will do that when publishing workshop.
+          # template/create-workshop.sh "$REPOSITORY_NAME" --output workshop \
+          #   --data-value workshop.title="${REPOSITORY_NAME}" \
+          #   --data-value workshop.description="${REPOSITORY_DESCRIPTION}" \
+          #   --data-value workshop.registry="https://ghcr.io/${REPOSITORY_OWNER}"
+          template/create-workshop.sh "$REPOSITORY_NAME" --output workshop \
+            --data-value workshop.title="${REPOSITORY_NAME}" \
+            --data-value workshop.description="${REPOSITORY_DESCRIPTION}"
+          mkdir -p workshop/${REPOSITORY_NAME}/.github/workflows workshop/${REPOSITORY_NAME}/.github/educates
+          cp template/.github/workflows/publish-workshop.yaml workshop/${REPOSITORY_NAME}/.github/workflows/
+
+      - name: Commit changes
+        working-directory: workshop/${{github.event.repository.name}}
+        run: |-
+          git config user.name "GitHub Action"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "Create workshop."
+          git push --force-with-lease origin main

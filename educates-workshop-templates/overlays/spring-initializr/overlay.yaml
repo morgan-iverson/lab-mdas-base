@@ -1,0 +1,68 @@
+#@ load("@ytt:data", "data")
+#@ load("@ytt:overlay", "overlay")
+
+#@overlay/match by=overlay.subset({"kind": "Workshop", "metadata": {"name": data.values.workshop.name}})
+---
+spec:
+  #! content:
+  #!   #@ if not data.values.workshop.image:
+  #!   #@overlay/match when=0
+  #!   image: "jdk17-environment:*"
+  #!   #@ end
+  session:
+    #@overlay/match missing_ok=True
+    dashboards:
+    #@overlay/append
+    - name: Initializr
+      url: "$(ingress_protocol)://initializr-$(session_namespace).$(ingress_domain)"
+    #@overlay/match missing_ok=True
+    ingresses:
+    #@overlay/append
+    - name: initializr
+      protocol: http
+      host: initializr.$(workshop_namespace).svc.cluster.local
+      port: 8080
+  #@overlay/match missing_ok=True
+  environment:
+    #@overlay/match missing_ok=True
+    objects:
+    #@overlay/append
+    - apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: initializr
+        labels:
+          app: initializr
+      spec:
+        replicas: 1
+        selector:
+          matchLabels:
+            app: initializr
+        template:
+          metadata:
+            labels:
+              app: initializr
+          spec:
+            containers:
+            - name: dashboard
+              image: ghcr.io/vmware-tanzu-labs/educates-spring-initializr:2.0
+              imagePullPolicy: Always
+              ports:
+              - name: 8080-tcp
+                containerPort: 8080
+                protocol: TCP
+    - apiVersion: v1
+      kind: Service
+      metadata:
+        name: initializr
+        labels:
+          app: initializr
+      spec:
+        type: ClusterIP
+        selector:
+          app: initializr
+        ports:
+        - name: 8080-tcp
+          port: 8080
+          protocol: TCP
+          targetPort: 8080

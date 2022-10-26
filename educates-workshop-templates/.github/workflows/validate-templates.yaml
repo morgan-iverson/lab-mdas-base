@@ -1,0 +1,28 @@
+name: Validate Templates
+
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  validate-templates:
+    runs-on: ubuntu-latest
+
+    if: ${{github.repository == 'vmware-tanzu-labs/educates-workshop-templates'}}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Carvel tools
+        run: curl -L https://carvel.dev/install.sh | bash
+
+      - name: Create workshops
+        run: |
+          ./create-workshop.sh starter-workshop \
+            --output workshops/starter-workshop \
+            --data-value workshop.title="Starter Workshop" \
+            --data-value workshop.description="Test of Starter Workshop." \
+            --overlay spring-initializr \
+            --overlay virtual-cluster

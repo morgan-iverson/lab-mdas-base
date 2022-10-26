@@ -1,0 +1,18 @@
+#@ load("@ytt:data", "data")
+
+---
+apiVersion: training.educates.dev/v1beta1
+kind: TrainingPortal
+metadata:
+  name: #@ data.values.workshop.name
+spec:
+  portal:
+    registration:
+      type: anonymous
+    updates:
+      workshop: true
+  workshops:
+  - name: #@ data.values.workshop.name
+    capacity: 1
+    expires: 60m
+    orphaned: 5m

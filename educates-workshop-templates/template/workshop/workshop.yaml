@@ -1,0 +1,11 @@
+#@ load("@ytt:data", "data")
+
+---
+name: #@ data.values.workshop.title
+
+modules:
+  activate:
+  - workshop-overview
+  - setup-environment
+  - exercises/01-sample-content
+  - workshop-summary

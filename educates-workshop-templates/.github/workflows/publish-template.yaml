@@ -1,0 +1,47 @@
+name: Publish Templates
+
+on:
+  push:
+    tags:
+      - "[0-9]+.[0-9]+"
+
+jobs:
+  publish-templates:
+    runs-on: ubuntu-latest
+
+    if: ${{github.repository == 'vmware-tanzu-labs/educates-workshop-templates'}}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install imgpkg
+        shell: bash
+        run: |
+          wget -nv -O- https://github.com/vmware-tanzu/carvel-imgpkg/releases/download/v0.27.0/imgpkg-linux-amd64 > /usr/local/bin/imgpkg
+          chmod 755 /usr/local/bin/imgpkg
+
+      - name: Calculate variables
+        shell: bash
+        run: |
+          REPOSITORY_NAME=${{github.event.repository.name}}
+          echo "REPOSITORY_NAME=${REPOSITORY_NAME,,}" >>${GITHUB_ENV}
+          echo "REPOSITORY_OWNER=${GITHUB_REPOSITORY_OWNER,,}" >>${GITHUB_ENV}
+          echo "REPOSITORY_TAG=${GITHUB_REF#refs/tags/}" >>${GITHUB_ENV}
+
+      - name: Build and publish
+        shell: bash
+        run: |
+          imgpkg push --debug -i ghcr.io/${REPOSITORY_OWNER}/${REPOSITORY_NAME}:latest -f . --registry-username=${{github.actor}} --registry-password=${{secrets.GITHUB_TOKEN}}
+          imgpkg push --debug -i ghcr.io/${REPOSITORY_OWNER}/${REPOSITORY_NAME}:${{env.REPOSITORY_TAG}} -f . --registry-username=${{github.actor}} --registry-password=${{secrets.GITHUB_TOKEN}}
+
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{env.REPOSITORY_TAG}}
+          release_name: "${{env.REPOSITORY_NAME}}:${{env.REPOSITORY_TAG}}"
+          draft: false
+          prerelease: false

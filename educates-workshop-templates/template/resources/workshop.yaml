@@ -1,0 +1,32 @@
+#@ load("@ytt:data", "data")
+
+---
+apiVersion: training.educates.dev/v1beta1
+kind: Workshop
+metadata:
+  name: #@ data.values.workshop.name
+spec:
+  title: #@ data.values.workshop.title
+  description: #@ data.values.workshop.description
+  workshop:
+    #@ if data.values.workshop.image:
+    image: #@ data.values.workshop.image
+    #@ end
+    files:
+    - image:
+        url: #@ "$(image_repository)/{name}-files:latest".format(name=data.values.workshop.name)
+      includePaths:
+      - /workshop/**
+      - /exercises/**
+      - /README.md
+  session:
+    namespaces:
+      budget: medium
+    applications:
+      terminal:
+        enabled: true
+        layout: split
+      console:
+        enabled: true
+      editor:
+        enabled: true
