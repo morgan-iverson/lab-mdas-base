@@ -4,4 +4,6 @@ modules:
   - workshop-overview
   - setup-environment
   - exercises/01-sample-content
+  - exercises/00-postgres
   - workshop-summary
+

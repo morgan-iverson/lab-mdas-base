@@ -11,7 +11,7 @@ spec:
         url: $(image_repository)/lab-mdas-base-files:latest
       includePaths:
       - /workshop/**
-      - /exercises/**
+      - /templates/**
       - /README.md
   session:
     namespaces:

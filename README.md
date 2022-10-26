@@ -1,5 +1,32 @@
-Educates Workshop Templates
+lab-mdas-base
 ===========================
+
+This is to be used as the base image for lab-spring-one-mdas
+
+This needs to have packages for the following tools:
+* java 17
+* redis
+* gemfire
+* rabbitmq
+* postgres
+
+Example
+
+lab/lab/resources/workshop.yaml
+```
+packages:
+    - name: docker
+      files:
+      - image: 
+        url: ghcr.io/vmware-tanzu-labs/educates-docker-in-docker:sha-e966463
+```
+This needs to be configured for spring initializer
+
+Run Workshop 
+```
+make 
+make open-workshop
+```
 
 This repository holds templates for creating workshops to be hosted using
 Educates. For detailed instructions on how to create workshops using these

@@ -1,0 +1,8 @@
+apiVersion: gemfire.tanzu.vmware.com/v1
+kind: Deployment
+metadata:
+   name: gemfire-dep
+spec:
+  image: registry.tanzu.vmware.com/pivotal-gemfire/vmware-gemfire:9.15.1
+  security:
+    tls: {}
