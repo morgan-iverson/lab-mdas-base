@@ -8,8 +8,6 @@ modules:
     exit_sign: Start Workshop
   exercises/01-sample-content:
     name: Sample Content
-  exercises/00-postgres:
-    name: Postgres Set Up
   workshop-summary:
     name: Workshop Summary
     exit_sign: Finish Workshop
