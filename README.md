@@ -22,10 +22,41 @@ packages:
 ```
 This needs to be configured for spring initializer
 
-Run Workshop 
+## Run Workshop 
 ```
 make 
 make open-workshop
+```
+
+## View workshop logs
+1. Run and Open Workshop
+2. In workshop terminal change directory to `~/.local/share/workshop`
+3. Notice any files with extension `.failed`
+4. Display contents of the corresponding log 
+
+```
+[~] $ cd ~/.local/share/workshop
+[~/.local/share/workshop] $
+[~/.local/share/workshop] $
+[~/.local/share/workshop] $
+[~/.local/share/workshop] $ ls
+download-workshop.log   setup-scripts.failed  workshop-definition.json
+kubernetes-settings.sh  setup-scripts.log     workshop-definition.yaml
+[~/.local/share/workshop] $
+[~/.local/share/workshop] $
+[~/.local/share/workshop] $
+[~/.local/share/workshop] $ cat setup-scripts.log 
++ local script=/opt/eduk8s/etc/setup.d/01-kubernetes.sh
++ echo 'Executing: /opt/eduk8s/etc/setup.d/01-kubernetes.sh'
+Executing: /opt/eduk8s/etc/setup.d/01-kubernetes.sh
++ sh -x /opt/eduk8s/etc/setup.d/01-kubernetes.sh
+
+...
+
+
++ cd /home/eduk8s/gemfire
+/opt/packages/gemfire/setup.d/01-setup-user.sh: line 8: cd: /home/eduk8s/gemfire: No such file or directory
++ touch /home/eduk8s/.local/share/workshop/setup-scripts.failed
 ```
 
 This repository holds templates for creating workshops to be hosted using
@@ -38,3 +69,5 @@ you need to wait until the GitHub action triggered upon repository creation has
 been run before creating a checkout of the repository. This is because the
 GitHub action will rewrite the initial repository content with customized
 workshop content.
+
+

@@ -13,14 +13,22 @@ spec:
       - /workshop/**
       - /templates/**
       - /README.md
+    packages:
+    - name: gemfire
+      files:
+      - image:
+          url: ghcr.io/morgan-iverson/mdas-packages/gemfire:sha-a900553
   session:
     namespaces:
       budget: medium
     applications:
       terminal:
         enabled: true
-        layout: split
+        # layout: split
       console:
         enabled: true
       editor:
         enabled: true
+    dashboards: 
+    - name: Terminal 2
+      url: terminal:terminal-2

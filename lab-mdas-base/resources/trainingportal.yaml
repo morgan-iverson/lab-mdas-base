@@ -10,6 +10,7 @@ spec:
       workshop: true
   workshops:
   - name: lab-mdas-base
+    reserved: 0
     capacity: 1
     expires: 60m
     orphaned: 5m
