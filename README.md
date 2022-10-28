@@ -22,6 +22,13 @@ packages:
 ```
 This needs to be configured for spring initializer
 
+## Restart Workshop
+1. Open workshop terminal (in browwser)
+2. Run the following command
+  ```
+  /opt/eduk8s/bin/rebuild-workshop
+  ```
+
 ## Run Workshop 
 ```
 make 

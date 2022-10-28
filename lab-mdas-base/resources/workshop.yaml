@@ -15,14 +15,14 @@ spec:
       - /templates/**
       - /README.md
     packages:
-    - name: gemfire
-      files:
-      - image:
-          url: ghcr.io/morgan-iverson/mdas-packages/gemfire:latest
     - name: postgres-12
       files:
       - image:
           url: ghcr.io/morgan-iverson/mdas-packages/postgres-12:latest
+    - name: gemfire
+      files:
+      - image:
+          url: ghcr.io/morgan-iverson/mdas-packages/gemfire:latest
   session:
     namespaces:
       budget: medium
@@ -34,6 +34,6 @@ spec:
         enabled: true
       editor:
         enabled: true
-    dashboards: 
-    - name: Terminal 2
-      url: terminal:terminal-2
+    # dashboards: 
+    # - name: Terminal 2
+    #   url: terminal:terminal-2
