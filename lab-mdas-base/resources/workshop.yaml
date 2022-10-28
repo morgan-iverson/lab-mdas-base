@@ -6,6 +6,7 @@ spec:
   title: Starter Workshop
   description: Starter workshop for Educates
   workshop:
+    image: jdk17-environment:*
     files:
     - image:
         url: $(image_repository)/lab-mdas-base-files:latest
@@ -17,7 +18,11 @@ spec:
     - name: gemfire
       files:
       - image:
-          url: ghcr.io/morgan-iverson/mdas-packages/gemfire:sha-a900553
+          url: ghcr.io/morgan-iverson/mdas-packages/gemfire:latest
+    - name: postgres-12
+      files:
+      - image:
+          url: ghcr.io/morgan-iverson/mdas-packages/postgres-12:latest
   session:
     namespaces:
       budget: medium

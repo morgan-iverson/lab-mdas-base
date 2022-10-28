@@ -3,12 +3,25 @@ This is the initial landing page for your workshop. Include in this page a descr
 ## Environment Set Up 
 This will be moved to set up envornment once environment set up is complete
 
-### Postgres Service
-Postgres is running as a Kubernetes Service.
+### Postgres 
+Postgres is running in Kubernetes
 ```execute
 type psql
 ```
-Check Postgres version.
+Check Postgres version
 ```execute
 psql --version
+```
+
+
+## Gemfire
+
+Check that Gemfire is installed
+```execute
+gfsh version
+```
+
+## Java 
+```execute
+java --version
 ```

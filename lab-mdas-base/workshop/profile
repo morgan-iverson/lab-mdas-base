@@ -2,5 +2,3 @@
 # Processed on bash process startup (after setup.d and profile.d)
 # -> Has access to environment variabes defined in profile.d
 
-alias psql='kubectl exec -it $POSTGRES_POD_NAME -- psql'
-

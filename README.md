@@ -35,11 +35,7 @@ make open-workshop
 4. Display contents of the corresponding log 
 
 ```
-[~] $ cd ~/.local/share/workshop
-[~/.local/share/workshop] $
-[~/.local/share/workshop] $
-[~/.local/share/workshop] $
-[~/.local/share/workshop] $ ls
+[~] $ cd ~/.local/share/workshop; ls
 download-workshop.log   setup-scripts.failed  workshop-definition.json
 kubernetes-settings.sh  setup-scripts.log     workshop-definition.yaml
 [~/.local/share/workshop] $
@@ -54,10 +50,20 @@ Executing: /opt/eduk8s/etc/setup.d/01-kubernetes.sh
 ...
 
 
+
 + cd /home/eduk8s/gemfire
 /opt/packages/gemfire/setup.d/01-setup-user.sh: line 8: cd: /home/eduk8s/gemfire: No such file or directory
 + touch /home/eduk8s/.local/share/workshop/setup-scripts.failed
 ```
+
+
+cd ~/.local/share/workshop; cat setup-scripts.log
+
+## See files from packages in workshop terminal
+```
+cd /opt/packages/
+```
+
 
 This repository holds templates for creating workshops to be hosted using
 Educates. For detailed instructions on how to create workshops using these
