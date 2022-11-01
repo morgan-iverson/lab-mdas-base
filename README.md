@@ -71,6 +71,55 @@ cd ~/.local/share/workshop; cat setup-scripts.log
 cd /opt/packages/
 ```
 
+# See ______ Logs
+1. Open Computer Temrinal (not workshop)
+
+2. Find the namespace of your workshop 
+  ```
+  % k get ns
+  NAME                               STATUS   AGE
+  default                            Active   2d21h
+  educates                           Active   2d21h
+  ...
+  lab-mdas-base-w01                  Active   43s
+  lab-mdas-base-w01-s001             Active   9s
+  lab-mdas-base-w01-s001-vc          Active   8s
+  ...
+  ``` 
+
+  **Note:** Your workshop namespace will end with `-w##` not `s##` or `s##-vc`
+  **Suggestion:** Save it `export NS=lab-mdas-base-w01`
+
+3. Find the pod associated with your workshop
+  ```
+  % k get pods -n $NS
+  NAME                                      READY   STATUS    RESTARTS   AGE
+  lab-mdas-base-w01-s001-6fb577b7d5-9lmt6   1/1     Running   0          2m39s
+  ```
+  
+  **Suggestion:** Save it `export POD=lab-mdas-base-w01-s001-6fb577b7d5-9lmt6`
+
+4. View Logs
+  ```
+  % k logs $POD -n $NS
+  + set -eo pipefail
+  + mkdir -p /home/eduk8s/.local/share/workshop
+  + WORKSHOP_NAME=lab-mdas-base
+  + TRAINING_PORTAL=lab-mdas-base
+  + ENVIRONMENT_NAME=lab-mdas-base-w01
+  + WORKSHOP_NAMESPACE=lab-mdas-base-w01
+  + SESSION_NAMESPACE=lab-mdas-base-w01-s001
+  + INGRESS_PROTOCOL=http
+  + INGRESS_DOMAIN=192.168.0.15.nip.io
+  + INGRESS_PORT_SUFFIX=
+  + export WORKSHOP_NAME
+  + export TRAINING_PORTAL
+  + export ENVIRONMENT_NAME
+  ...
+  ```
+  **Suggestion:** Write to file `echo $(k logs $POD -n $NS) > ~/Desktop/log.txt`
+  **Suggestion:** Watch logs live `k logs $POD -n $NS --follow` (**Note:** You may have to run this a couple times until the container starts)
+
 
 This repository holds templates for creating workshops to be hosted using
 Educates. For detailed instructions on how to create workshops using these

@@ -19,21 +19,36 @@ spec:
       files:
       - image:
           url: ghcr.io/morgan-iverson/mdas-packages/postgres-12:latest
-    - name: gemfire
+    - name: homebrew
       files:
       - image:
-          url: ghcr.io/morgan-iverson/mdas-packages/gemfire:latest
+          url: ghcr.io/morgan-iverson/mdas-packages/homebrew:latest
+    # - name: gemfire
+    #   files:
+    #   - image:
+    #       url: ghcr.io/morgan-iverson/mdas-packages/gemfire:latest
   session:
     namespaces:
       budget: medium
     applications:
+      vcluster:
+        enabled: true
       terminal:
         enabled: true
-        # layout: split
       console:
         enabled: true
       editor:
         enabled: true
     # dashboards: 
-    # - name: Terminal 2
-    #   url: terminal:terminal-2
+    # - name: Gemfire
+    #   url: terminal:gemfire
+    # objects:
+    #   - apiVersion: v1
+    #     kind: LimitRange
+    #     metadata:
+    #       name: resource-limits
+    #     spec:
+    #       limits:
+    #         - type: PersistentVolumeClaim
+    #           max:
+    #             storage: 10Gi

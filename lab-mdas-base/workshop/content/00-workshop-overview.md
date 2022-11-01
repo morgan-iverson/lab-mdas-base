@@ -3,6 +3,36 @@ This is the initial landing page for your workshop. Include in this page a descr
 ## Environment Set Up 
 This will be moved to set up envornment once environment set up is complete
 
+## RabbitMQ
+```execute
+kapp -y deploy --app rmq-operator --file https://github.com/rabbitmq/cluster-operator/releases/download/v1.10.0/cluster-operator.yml
+kubectl apply -f - << EOF
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: resource-claims-rmq
+  labels:
+    services.vmware.tanzu.com/aggregate-to-resource-claims: "true"
+rules:
+- apiGroups: ["rabbitmq.com"]
+  resources: ["rabbitmqclusters"]
+  verbs: ["get", "list", "watch"]
+EOF
+```
+**Note:** Requires custome bdget and max PVC ()
+```
+ objects:
+      - apiVersion: v1
+        kind: LimitRange
+        metadata:
+          name: resource-limits
+        spec:
+          limits:
+            - type: PersistentVolumeClaim
+              max:
+                storage: 10Gi
+```
+
 ## Postgres 
 **Note:** Resolving processing failures until then run the following scripts on start up to set up psql command:
 ```execute 

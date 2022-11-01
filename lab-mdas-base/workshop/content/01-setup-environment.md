@@ -1,32 +1,3 @@
-## Postgres
-Postgres is ...
-
-
-
-Check that Postgres is installed
-```execute
-psql -version
-```
-
-Postgres is running in Kubernetes
-```execute
-type psql
-```
-
-## Gemfire
-Gemfire is ...
-
-Check that Gemfire is installed
-```execute
-gfsh
-```
-
-## Java
-Incomplete
-
-## Rabbitmq
-
-
 
 
 Include in this page any steps which should be run by a user to check that the workshop environment is setup correctly. Exactly what you provide in this step will depend on whether the workshop is designed to be deployed in a specific way.
