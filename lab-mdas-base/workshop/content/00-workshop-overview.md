@@ -4,61 +4,55 @@ This is the initial landing page for your workshop. Include in this page a descr
 This will be moved to set up envornment once environment set up is complete
 
 ## RabbitMQ
-```execute
-kapp -y deploy --app rmq-operator --file https://github.com/rabbitmq/cluster-operator/releases/download/v1.10.0/cluster-operator.yml
-kubectl apply -f - << EOF
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: resource-claims-rmq
-  labels:
-    services.vmware.tanzu.com/aggregate-to-resource-claims: "true"
-rules:
-- apiGroups: ["rabbitmq.com"]
-  resources: ["rabbitmqclusters"]
-  verbs: ["get", "list", "watch"]
-EOF
-```
-**Note:** Requires custome bdget and max PVC ()
-```
- objects:
-      - apiVersion: v1
-        kind: LimitRange
-        metadata:
-          name: resource-limits
-        spec:
-          limits:
-            - type: PersistentVolumeClaim
-              max:
-                storage: 10Gi
+RabbitMQ is a....
+
+```dashboard:open-dashboard
+name: RabbitMQ
 ```
 
+**Note:** RabbitMQ is currently running in a docker container.
+
+```execute
+docker ps --format "$DOCKER_FORMAT"
+```
+
+ 
 ## Postgres 
-**Note:** Resolving processing failures until then run the following scripts on start up to set up psql command:
-```execute 
-POSTGRES_POD_NAME=$(kubectl get pod -l app=postgres -o jsonpath="{.items[0].metadata.name}")
-alias psql='kubectl exec -it $POSTGRES_POD_NAME -- psql'
-```
+Postgress is a...
 
-Postgres is running in Kubernetes
-```execute
-type psql
-```
-Check Postgres version
+We are running Postgres 12.7.
 ```execute
 psql --version
 ```
-## RabbitMQ
-In progress...
+
+**Note:** Postgres is running in Kubernetes
+```execute
+type psql
+```
+
 
 ## Gemfire
+Gemfire is a ...
 
-Check that Gemfire is installed
-```execute
+We are running Gemfire v##.
+
+```terminal:gemfire
 gfsh version
 ```
 
 ## Java 
+Java is a ...
+
+This workshop is running on an image based on Java 17.
 ```execute
 java --version
 ```
+
+### Extras
+```editor:open-file
+file: ~/spring-modern-data-architecture/description.txt
+```
+<!-- ```editor:select-matching-text
+file: ~/exercises/sample.txt
+text: "int main()"
+``` -->

@@ -119,7 +119,7 @@ cd /opt/packages/
   ```
   **Suggestion:** Write to file `echo $(k logs $POD -n $NS) > ~/Desktop/log.txt`
   **Suggestion:** Watch logs live `k logs $POD -n $NS --follow` (**Note:** You may have to run this a couple times until the container starts)
-
+  **Suggestion:** One-liner `k logs $(k get pod -n $ns -o name) -n $ns --follow`
 
 This repository holds templates for creating workshops to be hosted using
 Educates. For detailed instructions on how to create workshops using these

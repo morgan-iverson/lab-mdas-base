@@ -2,3 +2,5 @@
 # Processed on bash process startup (after setup.d and profile.d)
 # -> Has access to environment variabes defined in profile.d
 
+alias d=docker
+export DOCKER_FORMAT="table {{.Names}}\t{{.Image}}\t{{.Status}}"
