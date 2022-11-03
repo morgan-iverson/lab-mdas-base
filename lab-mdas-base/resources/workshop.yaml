@@ -31,10 +31,10 @@ spec:
           url: ghcr.io/morgan-iverson/mdas-packages/gemfire:latest
   session:
     ingresses:
-    - name: application
+    - name: rabbitmq
       port: 15672
     namespaces:
-      budget: large
+      budget: medium
     applications:
       docker:
         enabled: true
@@ -46,6 +46,6 @@ spec:
         enabled: true
     dashboards: 
     - name: RabbitMQ
-      url: http://application-$(session_namespace).$(ingress_domain)
+      url: http://rabbitmq-$(session_namespace).$(ingress_domain)
     - name: Gemfire
       url: terminal:gemfire

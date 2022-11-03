@@ -10,6 +10,15 @@ RabbitMQ is a....
 name: RabbitMQ
 ```
 
+## Open Rabbit MWQ in a new tab
+```copy
+http://rabbitmq-{{session_namespace}}.{{ingress_domain}}
+```
+
+## Open Editor in a new tab 
+```copy
+http://editor-{{session_namespace}}.{{ingress_domain}}
+```
 **Note:** RabbitMQ is currently running in a docker container.
 
 ```execute
@@ -36,8 +45,9 @@ Gemfire is a ...
 
 We are running Gemfire v##.
 
-```terminal:gemfire
-gfsh version
+```terminal:execute
+command: gfsh version
+session: gemfire
 ```
 
 ## Java 
