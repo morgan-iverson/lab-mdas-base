@@ -13,28 +13,43 @@ spec:
       includePaths:
       - /workshop/**
       - /templates/**
-      - /project/**
-      - /spring-modern-data-architecture/**
+      # - /project/**
+      # - /spring-modern-data-architecture/**
       - /README.md
     packages:
-    - name: postgres-12
-      files:
-      - image:
-          url: ghcr.io/morgan-iverson/mdas-packages/postgres-12:latest
-    - name: rabbitmq-in-docker
-      files:
-      - image:
-          url: ghcr.io/morgan-iverson/mdas-packages/rabbitmq-in-docker:latest
-    - name: gemfire
-      files:
-      - image:
-          url: ghcr.io/morgan-iverson/mdas-packages/gemfire:latest
+    # - name: postgres-12
+    #   files:
+    #   - image:
+    #       url: ghcr.io/morgan-iverson/mdas-packages/postgres-12:latest
+    # - name: rabbitmq-in-docker
+    #   files:
+    #   - image:
+    #       url: ghcr.io/morgan-iverson/mdas-packages/rabbitmq-in-docker:latest
+    # - name: gemfire
+    #   files:
+    #   - image:
+    #       url: ghcr.io/morgan-iverson/mdas-packages/gemfire:latest
   session:
     ingresses:
     - name: rabbitmq
       port: 15672
+    - name: retail-web-app
+      port: 8080
     namespaces:
-      budget: medium
+      budget: custom
+      limits:
+        min:
+          cpu: 5m
+          memory: 32Mi
+        max:
+          cpu: 8000m
+          memory: 16Gi
+        defaultRequest:
+          cpu: 50m
+          memory: 128Mi
+        default:
+          cpu: 500m
+          memory: 1Gi
     applications:
       docker:
         enabled: true
@@ -44,8 +59,18 @@ spec:
         enabled: false
       editor:
         enabled: true
-    dashboards: 
-    - name: RabbitMQ
-      url: http://rabbitmq-$(session_namespace).$(ingress_domain)
-    - name: Gemfire
-      url: terminal:gemfire
+      vcluster:
+        enabled: true
+        resources: 
+          syncer:
+            memory: 4Gi
+          k3s:
+            memory: 2Gi
+    # dashboards: 
+    # - name: RabbitMQ
+    #   url: http://rabbitmq-$(session_namespace).$(ingress_domain)
+    # - name: Retail Web App
+    #   url: http://retail-web-app-$(session_namespace).$(ingress_domain)
+    # - name: Gemfire
+    #   url: terminal:gemfire
+    objects:
