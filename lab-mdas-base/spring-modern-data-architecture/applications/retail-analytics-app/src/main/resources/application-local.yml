@@ -1,6 +1,0 @@
-spring:
-  datasource:
-    url: "jdbc:postgresql://localhost:5432/postgres"
-    username : retail
-  redis:
-    url: "redis://localhost:6379"

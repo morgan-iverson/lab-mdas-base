@@ -1,7 +1,12 @@
 This is the initial landing page for your workshop. Include in this page a description of what your workshop is about.
 
+## TEST ENV VARIABLES
+
+{{ ENV_TEST }}
+
 ## Environment Set Up 
 This will be moved to set up envornment once environment set up is complete
+
 
 ## RabbitMQ
 RabbitMQ is a....

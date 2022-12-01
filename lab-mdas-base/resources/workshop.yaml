@@ -36,7 +36,7 @@ spec:
     - name: retail-web-app
       port: 8080
     namespaces:
-      budget: custom
+      budget: large
       limits:
         min:
           cpu: 5m
@@ -66,11 +66,13 @@ spec:
             memory: 4Gi
           k3s:
             memory: 2Gi
-    # dashboards: 
-    # - name: RabbitMQ
-    #   url: http://rabbitmq-$(session_namespace).$(ingress_domain)
+    dashboards: 
+    - name: RabbitMQ
+      url: http://rabbitmq-$(session_namespace).$(ingress_domain)
     # - name: Retail Web App
     #   url: http://retail-web-app-$(session_namespace).$(ingress_domain)
-    # - name: Gemfire
-    #   url: terminal:gemfire
+    - name: Gemfire
+      url: terminal:gemfire
+    - name: RabbitMQ Terminal
+      url: terminal:gemfire
     objects:

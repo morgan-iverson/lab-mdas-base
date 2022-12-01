@@ -38,8 +38,8 @@ Starter workshop for Educates
     EOF
 
 
-    k apply -f templates/rabbitmq/$SERVER_NAME.yaml
-    k apply -f templates/rabbitmq/rabbitmq-cluster.yaml 
+    // k apply -f templates/rabbitmq/$SERVER_NAME.yaml
+    // k apply -f templates/rabbitmq/rabbitmq-cluster.yaml 
     ```
 
 5. Wait until Ready (or use next step)
@@ -52,6 +52,15 @@ Starter workshop for Educates
     ```
     kubectl get all -l app.kubernetes.io/name=definition -n rabbitmq-system
     ```
+6. Get Username and Password
+    ```
+    username="$(kubectl get secret definition-default-user -o jsonpath='{.data.username}' | base64 --decode)"
+    echo "username: $username"
+
+    password="$(kubectl get secret definition-default-user -o jsonpath='{.data.password}' | base64 --decode)"
+    echo "password: $password"
+    ```
+
 
 6. 
 
@@ -130,3 +139,12 @@ created within the vcluster to the underlying host cluster.***
 Then, the host cluster will actually schedule the pod and 
 the vcluster will keep the vcluster pod and host cluster 
 pod in sync.
+
+
+
+username="$(kubectl get secret definition-default-user -o jsonpath='{.data.username}' | base64 --decode)"
+echo "username: $username"
+
+password="$(kubectl get secret definition-default-user -o jsonpath='{.data.password}' | base64 --decode)"
+echo "password: $password"
+
