@@ -3,7 +3,5 @@ modules:
   activate:
   - 00-workshop-overview
   - 01-setup-environment
-  - exercises/01-sample-content
-  - exercises/00-postgres
   - XX-workshop-summary
 

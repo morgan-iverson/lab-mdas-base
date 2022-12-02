@@ -13,22 +13,7 @@ spec:
       includePaths:
       - /workshop/**
       - /templates/**
-      # - /project/**
-      # - /spring-modern-data-architecture/**
       - /README.md
-    packages:
-    # - name: postgres-12
-    #   files:
-    #   - image:
-    #       url: ghcr.io/morgan-iverson/mdas-packages/postgres-12:latest
-    # - name: rabbitmq-in-docker
-    #   files:
-    #   - image:
-    #       url: ghcr.io/morgan-iverson/mdas-packages/rabbitmq-in-docker:latest
-    # - name: gemfire
-    #   files:
-    #   - image:
-    #       url: ghcr.io/morgan-iverson/mdas-packages/gemfire:latest
   session:
     ingresses:
     - name: rabbitmq
@@ -69,10 +54,8 @@ spec:
     dashboards: 
     - name: RabbitMQ
       url: http://rabbitmq-$(session_namespace).$(ingress_domain)
-    # - name: Retail Web App
-    #   url: http://retail-web-app-$(session_namespace).$(ingress_domain)
     - name: Gemfire
       url: terminal:gemfire
     - name: RabbitMQ Terminal
-      url: terminal:gemfire
+      url: terminal:rabbitmq
     objects:
